@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Clothing Store</title>
+    <style>
+        /* Base Page Styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Fullscreen Video Overlay */
+        #animation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease-out;
+        }
+
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            /* Ensures the video fills the screen dynamically without distortion */
+            object-fit: cover; 
+        }
+
+        /* Main E-commerce Content (Hidden during video) */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease-in;
+        }
+
+        /* Basic Store Layout Placeholder */
+        header {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="animation-overlay">
+        <video id="intro-video" muted autoplay playsinline>
+            <source src="animation.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div id="main-content">
+        <header>
+            <h1>Premium Men's Apparel</h1>
+        </header>
+        <div class="container">
+            <h2>Welcome to the Store</h2>
+            <p>Our latest collection will be displayed here.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.getElementById("intro-video");
+            const overlay = document.getElementById("animation-overlay");
+            const mainContent = document.getElementById("main-content");
+
+            // Function to reveal the store
+            const showStore = () => {
+                overlay.style.opacity = "0"; // Trigger fade out
+                
+                setTimeout(() => {
+                    overlay.style.display = "none"; // Remove overlay from document flow
+                    mainContent.style.display = "block"; // Display store container
+                    
+                    // Slight delay to trigger the fade-in effect for the store
+                    setTimeout(() => {
+                        mainContent.style.opacity = "1";
+                    }, 50);
+                }, 600); // Matches the CSS transition duration
+            };
+
+            // Listen for the video to finish playing
+            video.addEventListener("ended", showStore);
+
+            // Fallback: If the video fails to load (e.g., wrong file path), show the store immediately
+            video.addEventListener("error", showStore);
+        });
+    </script>
+</body>
+</html>
